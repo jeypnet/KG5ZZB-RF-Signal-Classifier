@@ -48,7 +48,7 @@ It is **receive-only**: it never transmits.
 - **Record 2 s** saves the channelized signal (200 kS/s, `cf32_le`) as `.sigmf-data` + `.sigmf-meta`, with `core:sample_rate`, `core:frequency`, `core:datetime`, `core:hw`, `core:recorder` and an **annotation** carrying the predicted label (`core:label`) and the top-3 probabilities (`core:comment`), per the [SigMF](https://sigmf.org) specification v1.2.x. Ready for dataset building and other RF machine-learning tools.
 
 ### 🎬 Try it without hardware
-**Try the demo** (or start with `--demo`) runs a simulated band with **13 transmitters at once**, one of each class: wide FM, NFM, AM, USB, LSB, CW, 2-FSK, 4-FSK, GFSK, OOK, BPSK, QPSK and LoRa, spread across 2.4 MHz. The demo band comes from a separate C# signal simulator, streamed as 8-bit I/Q exactly like a dongle.
+**Try the demo** (or start with `--demo`) plays a built-in band with **13 transmitters at once**, one of each class: wide FM, NFM, AM, USB, LSB, CW, 2-FSK, 4-FSK, GFSK, OOK, BPSK, QPSK and LoRa, spread across 2.4 MHz. The demo band comes from a separate C# signal scene generator, streamed as 8-bit I/Q exactly like a dongle.
 
 ---
 
@@ -79,7 +79,7 @@ channel filter, 1024 IQ         per-class, per-SNR, confusion matrix
 
 RFNet is right **93-96% of the time at 20 dB SNR and above**, 79% at 10 dB and 47% at 0 dB (chance is 7%). WFM and LoRa are recognised almost perfectly. Most mistakes are weak narrow signals (CW, SSB) called Noise at low SNR; the hardest pairs are 4-FSK vs NFM, AM vs CW, GFSK vs 4-FSK and USB vs LSB. The deep network beats the classical feature-based baseline by 12 points overall and 13 points at 10 dB and above, and the fixed IQ front end (amplitude, phase step, STFT) adds 6 points over the plain I/Q CNN.
 
-**Same network, real preprocessing path:** 1,344 test signals rendered at 2.4 MS/s anywhere in the band, quantised to 8 bits like an RTL-SDR and passed through the app's channelizer score **74.8%** (91.2% at 10 dB and above), matching the 73.7% above. On the demo band, whose 13 transmitters come from an independent C# simulator, **51 of 52** decisions are correct (automated test).
+**Same network, real preprocessing path:** 1,344 test signals rendered at 2.4 MS/s anywhere in the band, quantised to 8 bits like an RTL-SDR and passed through the app's channelizer score **74.8%** (91.2% at 10 dB and above), matching the 73.7% above. On the demo band, whose 13 transmitters come from an independent C# scene generator, **51 of 52** decisions are correct (automated test).
 
 The full model card, per-class precision/recall/F1, recall vs SNR for every class and the confusion matrix are in **[docs/MODEL.md](docs/MODEL.md)**. An optional script, a Python script , scores the model on the overlapping classes of DeepSig's public RadioML 2018.01A dataset if you download it.
 
@@ -89,10 +89,10 @@ The full model card, per-class precision/recall/F1, recall vs SNR for every clas
 |---|---|
 | Hardware | P/Invoke bindings to librtlsdr, async streaming, retune with stale-buffer discard, USB error retries |
 | DSP | Mixer, 257-tap Blackman FIR, decimation by 12, normalisation; Welch spectrum; FFT; channel finder |
-| Machine learning | Synthetic IQ generator, PyTorch training of RFNet and two baselines, ONNX export, ONNX Runtime inference, window combining |
+| Machine learning | IQ training-data generator, PyTorch training of RFNet and two baselines, ONNX export, ONNX Runtime inference, window combining |
 | Pipeline | Sample ring buffer, spectrum frames, detection, per-channel classification, recording |
 | Recording | SigMF `cf32_le` data + metadata with label annotation |
-| Simulation | 13 streaming transmitters (voice, music, Morse, FSK, PSK with RRC, LoRa chirps) and a pretend dongle |
+| Demo engine | 13 streaming transmitters (voice, music, Morse, FSK, PSK with RRC, LoRa chirps) and a demo dongle |
 | UI | WPF: clickable waterfall, top-3 bars, constellation, channel spectrum, signal list |
 | Tests | Python/C# parity, ONNX vs PyTorch, accuracy on fresh IQ, SigMF validity, end-to-end demo |
 
