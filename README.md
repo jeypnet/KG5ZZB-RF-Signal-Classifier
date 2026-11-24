@@ -2,6 +2,8 @@
 
 ![RF Signal Classifier: deep learning that names a radio signal's modulation from raw IQ](docs/cover.png)
 
+[![Connect on LinkedIn](https://img.shields.io/badge/Connect_on_LinkedIn-0A66C2?style=for-the-badge)](https://www.linkedin.com/in/jeypnet/)
+
 <img src="docs/icon.png" width="96" align="right" alt="App icon: green neural-network nodes over a sine wave">
 
 **Deep-learning modulation classification for Windows with a low-cost RTL-SDR: click a signal on the waterfall and a 1-D convolutional neural network says what it is, straight from the raw IQ samples.**
@@ -119,6 +121,9 @@ HF (below about 24 MHz) needs a dongle that supports direct sampling or an upcon
 ## Source code
 This repository is the public showcase: description, results, model card and images.
 The source code is private. Technical walkthroughs are available on request.
+
+## Contact
+Into ham radio, RF, SDR or aviation? **[Let's connect on LinkedIn](https://www.linkedin.com/in/jeypnet/)**. I share new radio apps, RF projects and what I learn along the way.
 
 ## License
 Copyright (c) 2026 KG5ZZB. All rights reserved. Text and images may not be reused without permission.
